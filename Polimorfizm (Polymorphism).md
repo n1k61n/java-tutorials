@@ -1,49 +1,104 @@
-**Java Polimorfizm (Polymorphism)**
+**Polymorphism** — yunanca “çox formalılıq” deməkdir (“poly” = çox, “morph” = forma).  
+Java-da **polimorfizm** o zaman baş verir ki, bir neçə sinif **irsilik (inheritance)** vasitəsilə bir-biri ilə əlaqəlidir, lakin **eyni adlı metod** bu siniflərdə **fərqli şəkildə işləyir**.
 
-**Polimorfizm** "çox formalı" deməkdir və bir-biri ilə **irsiyyət** vasitəsilə əlaqəli olan bir çox sinifimiz olduqda baş verir.
+---
 
-Əvvəlki fəsildə qeyd etdiyimiz kimi, **irsiyyət** bizə bir sinifdən atributları və metodları irsən almağa imkan verir. **Polimorfizm** isə həmin metodlardan **fərqli tapşırıqları** yerinə yetirmək üçün istifadə edir. Bu, bizə **tək bir hərəkəti fərqli yollarla** həyata keçirməyə imkan verir.
+### 🔹 Sadə izah
 
-Məsələn, **`animalSound()`** adlı metodu olan **`Animal`** adında bir **superclass** (valideyn sinif) düşünün. Heyvanların **subclass-ları** (övlad sinifləri) **`Pigs`** (Donuzlar), **`Cats`** (Pişiklər), **`Dogs`** (İtlər), **`Birds`** (Quşlar) ola bilər. Və onların hər biri öz heyvan səsinin fərqli implementasiyasına malikdir (donuz xoruldar, pişik miyoldayar və s.):
+- **Inheritance** → metod və atributların miras alınmasını təmin edir.
+    
+- **Polymorphism** → həmin metodların **fərqli şəkildə icra olunmasına** imkan yaradır.
+    
 
-Java
+Yəni eyni əməliyyatı (“animalSound()” kimi) fərqli obyektlər müxtəlif cür yerinə yetirə bilir.
 
-```
-// Superclass (Valideyn Sinif)
+---
+
+### 🧩 Nümunə
+
+```java
 class Animal {
   public void animalSound() {
     System.out.println("The animal makes a sound");
   }
 }
 
-// Subclass 1
 class Pig extends Animal {
-  // animalSound() metodu Pig sinfi üçün yenidən təyin edilir (override olunur)
   public void animalSound() {
     System.out.println("The pig says: wee wee");
   }
 }
 
-// Subclass 2
 class Dog extends Animal {
-  // animalSound() metodu Dog sinfi üçün yenidən təyin edilir (override olunur)
   public void animalSound() {
     System.out.println("The dog says: bow wow");
   }
 }
 
-// Əsas İcra
 class Main {
   public static void main(String[] args) {
     Animal myAnimal = new Animal();  // Animal obyekti
-    Animal myPig = new Pig();        // Pig obyekti Animal kimi referans edilir
-    Animal myDog = new Dog();        // Dog obyekti Animal kimi referans edilir
+    Animal myPig = new Pig();        // Pig obyekti
+    Animal myDog = new Dog();        // Dog obyekti
 
-    myAnimal.animalSound(); // Çıxış: The animal makes a sound
-    myPig.animalSound();    // Çıxış: The pig says: wee wee
-    myDog.animalSound();    // Çıxış: The dog says: bow wow
+    myAnimal.animalSound();  // "The animal makes a sound"
+    myPig.animalSound();     // "The pig says: wee wee"
+    myDog.animalSound();     // "The dog says: bow wow"
   }
 }
 ```
 
-Bu nümunədə, **`animalSound()`** metodu eyni ada malikdir, lakin hər fərqli heyvan (övlad sinif) üçün fərqli şəkildə işləyir. Bu, **polimorfizmin** ən bariz nümunələrindən biridir.
+📤 **Nəticə:**
+
+```
+The animal makes a sound
+The pig says: wee wee
+The dog says: bow wow
+```
+
+---
+
+### 🔹 Necə işləyir?
+
+- `Pig` və `Dog` sinifləri **`Animal` sinifindən extends** vasitəsilə miras alır.
+    
+- Hər biri `animalSound()` metodunu **özünəməxsus şəkildə yenidən yazır (override edir)**.
+    
+- Java proqramı **obyektin tipinə görə** (run-time zamanı) uyğun olan metodu çağırır.
+    
+
+Bu, **runtime polymorphism** (işləmə zamanı polimorfizm) adlanır.
+
+---
+
+### 🔹 Niyə və nə zaman istifadə olunur?
+
+✅ **Kodun təkrar istifadəsi (Code reusability):**  
+Eyni bazadan (`Animal`) fərqli siniflər (`Pig`, `Dog`) yaradıla bilər.
+
+✅ **Kodun çevikliyi (Flexibility):**  
+Yeni heyvan sinfi əlavə etdikdə (`Cat`, `Bird` və s.), yalnız `animalSound()` metodunu yazmaq kifayətdir — qalan kodu dəyişməyə ehtiyac yoxdur.
+
+✅ **Təmiz və oxunaqlı struktur:**  
+Eyni metod adı ilə müxtəlif davranışlar idarə olunur.
+
+---
+
+### 💡 Sadə müqayisə
+
+|Sinif|Metod|Çıxış|
+|---|---|---|
+|`Animal`|`animalSound()`|The animal makes a sound|
+|`Pig`|`animalSound()`|The pig says: wee wee|
+|`Dog`|`animalSound()`|The dog says: bow wow|
+
+---
+
+### 🧠 Qısa nəticə
+
+|Anlayış|Mənası|
+|---|---|
+|**Inheritance**|Siniflər arasında atribut və metodların miras alınması|
+|**Polymorphism**|Miras alınan metodların fərqli cür işləməsi|
+|**extends**|İrsilik qurmaq üçün istifadə olunur|
+|**override**|Superclass metodunu fərqli şəkildə yenidən yazmaq|
